@@ -1,9 +1,12 @@
-import React from 'react';
+// import axios from 'axios';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import users from '../users.json';
+import { fetchUsers } from '../actions';
+// import users from '../users.json';
 
-    const UserProfileCard = styled.div`
+const UserProfileCard = styled.div`
     border: 1px solid #ccc;
     margin-bottom: 1em;
     padding: 1em;
@@ -11,6 +14,14 @@ import users from '../users.json';
     `;
 
 const UserProfile = () => {
+    const dispatch = useDispatch();
+    const { users } = useSelector(state => state.users); 
+
+    useEffect(() => {
+        dispatch(fetchUsers());
+    }, [dispatch]);
+
+
     const { id } = useParams();
     const user = users.find(user => user.id === Number(id));
 
